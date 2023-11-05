@@ -19,4 +19,14 @@ public class RoutineServiceImp implements RoutineService {
     public List<Routine> getAllRoutines(String userId) {
         return routineDao.getAllDBRoutines(userId);
     }
+
+    @Override
+    public Routine postRoutine(String userId, Routine newRoutine) {
+        return routineDao.postNewRoutineToDB(userId, newRoutine);
+    }
+
+    @Override
+    public Routine editRoutine(String userId, Routine editedRoutine) {
+        return routineDao.editDBRoutine(userId, editedRoutine);
+    }
 }

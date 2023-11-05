@@ -6,11 +6,8 @@ import com.adridev.gymex.services.RoutineService;
 import com.adridev.gymex.services.WeekService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +35,26 @@ public class GymexController {
                         .orElse(ResponseEntity.notFound().build())
         );
 
+    }
+
+    @PostMapping("routines/{userId}")
+    public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
+        return CompletableFuture.completedFuture(
+                Optional
+                        .ofNullable(routineService.postRoutine(userId, newRoutine))
+                        .map(routine -> ResponseEntity.ok().body(routine))
+                        .orElse(ResponseEntity.badRequest().build())
+        );
+    }
+
+    @PutMapping("routines/{userId}")
+    public CompletableFuture<ResponseEntity<Routine>> putRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
+        return CompletableFuture.completedFuture(
+                Optional
+                        .ofNullable(routineService.editRoutine(userId, newRoutine))
+                        .map(routine -> ResponseEntity.ok().body(routine))
+                        .orElse(ResponseEntity.notFound().build())
+        );
     }
 
     @GetMapping("weeks/{userId}")
