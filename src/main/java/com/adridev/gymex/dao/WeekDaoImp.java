@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 @Repository
 public class WeekDaoImp implements WeekDao{
     RoutineDao routineDao;
-    Map<String , Week> databaseWeeks = new HashMap<>();
+    Map<String , List<Week>> databaseWeeks = new HashMap<>();
 
     @Autowired
     public WeekDaoImp(RoutineDao routineDao) {
@@ -21,30 +22,57 @@ public class WeekDaoImp implements WeekDao{
 
         UUID idWeek1 = UUID.randomUUID();
 
-        UUID idDay1 = UUID.randomUUID();
-        UUID idDay2 = UUID.randomUUID();
-        UUID idDay3 = UUID.randomUUID();
-        UUID idDay4 = UUID.randomUUID();
-        UUID idDay5 = UUID.randomUUID();
-        UUID idDay6 = UUID.randomUUID();
-        UUID idDay7 = UUID.randomUUID();
-
         List<Routine> routines = routineDao.getAllDBRoutines(userId);
 
         List<Day> days = new ArrayList<>();
-        days.add(new Day(idDay1, "monday", routines.get(0)));
-        days.add(new Day(idDay2, "tuesday", routines.get(0)));
-        days.add(new Day(idDay3, "wednesday", routines.get(0)));
-        days.add(new Day(idDay4, "thursday", routines.get(0)));
-        days.add(new Day(idDay5, "friday", routines.get(0)));
-        days.add(new Day(idDay6, "saturday", routines.get(0)));
-        days.add(new Day(idDay7, "sunday", routines.get(0)));
+        days.add(new Day("monday", routines.get(0)));
+        days.add(new Day("tuesday", routines.get(0)));
+        days.add(new Day("wednesday", routines.get(0)));
+        days.add(new Day("thursday", routines.get(0)));
+        days.add(new Day("friday", routines.get(0)));
+        days.add(new Day("saturday", routines.get(0)));
+        days.add(new Day("sunday", routines.get(0)));
+
+        List<Week> weeks = new ArrayList<>();
+        weeks.add(new Week(idWeek1, "Semana 1", days));
 
 
-        databaseWeeks.put(userId, new Week(idWeek1, "Semana 1", days));
+        databaseWeeks.put(userId, weeks);
     }
     @Override
     public List<Week> getAllDBWeeks(String userId) {
-        return new ArrayList<>(databaseWeeks.values());
+        return databaseWeeks.get(userId);
+    }
+
+    @Override
+    public OptionalInt findWeekIndexById(String userId, UUID weekId) {
+        List<Week> userDatabaseWeeks = databaseWeeks.get(userId);
+
+        return IntStream.range(0, userDatabaseWeeks.size())
+                .filter(i -> userDatabaseWeeks.get(i).getId().equals(weekId))
+                .findFirst();
+    }
+
+    @Override
+    public List<Week> putDBWeek(String userId, Week editedWeek) {
+        List<Week> userDatabaseWeeks = databaseWeeks.get(userId);
+        OptionalInt weekIndexToEdit = this.findWeekIndexById(userId, editedWeek.getId());
+        System.out.println("Index de la semana; " + weekIndexToEdit);
+        if (weekIndexToEdit.isPresent()) {
+            userDatabaseWeeks.set(weekIndexToEdit.getAsInt(), editedWeek);
+            return userDatabaseWeeks;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Week> postWeekToDB(String userId, Week newWeek) {
+        UUID weekId = UUID.randomUUID();
+        newWeek.setId(weekId);
+        List<Week> weeks = databaseWeeks.get(userId);
+        if (!weeks.isEmpty()) {
+            weeks.add(newWeek);
+        }
+        return weeks;
     }
 }

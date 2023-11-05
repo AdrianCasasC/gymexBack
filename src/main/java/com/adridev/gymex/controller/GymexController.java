@@ -37,16 +37,6 @@ public class GymexController {
 
     }
 
-    @PostMapping("routines/{userId}")
-    public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
-        return CompletableFuture.completedFuture(
-                Optional
-                        .ofNullable(routineService.postRoutine(userId, newRoutine))
-                        .map(routine -> ResponseEntity.ok().body(routine))
-                        .orElse(ResponseEntity.badRequest().build())
-        );
-    }
-
     @PutMapping("routines/{userId}")
     public CompletableFuture<ResponseEntity<Routine>> putRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
         return CompletableFuture.completedFuture(
@@ -57,6 +47,16 @@ public class GymexController {
         );
     }
 
+    @PostMapping("routines/{userId}")
+    public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
+        return CompletableFuture.completedFuture(
+                Optional
+                        .ofNullable(routineService.postRoutine(userId, newRoutine))
+                        .map(routine -> ResponseEntity.ok().body(routine))
+                        .orElse(ResponseEntity.badRequest().build())
+        );
+    }
+
     @GetMapping("weeks/{userId}")
     public CompletableFuture<ResponseEntity<List<Week>>> getWeeks(@PathVariable String userId) {
         return CompletableFuture.completedFuture(
@@ -64,6 +64,26 @@ public class GymexController {
                         .of(weekService.getAllWeeks(userId))
                         .map(weeks -> ResponseEntity.ok().body(weeks))
                         .orElse(ResponseEntity.notFound().build())
+        );
+    }
+
+    @PutMapping ("weeks/{userId}")
+    public CompletableFuture<ResponseEntity<List<Week>>> putWeek(@PathVariable String userId, @RequestBody Week newWeek) {
+        return CompletableFuture.completedFuture(
+                Optional
+                        .of(weekService.editWeek(userId, newWeek))
+                        .map(weeks -> ResponseEntity.ok().body(weeks))
+                        .orElse(ResponseEntity.notFound().build())
+        );
+    }
+
+    @PostMapping("weeks/{userId}")
+    public CompletableFuture<ResponseEntity<List<Week>>> postWeek(@PathVariable String userId, @RequestBody Week newWeek) {
+        return CompletableFuture.completedFuture(
+                Optional
+                        .of(weekService.postNewWeek(userId, newWeek))
+                        .map(weeks -> ResponseEntity.ok().body(weeks))
+                        .orElse(ResponseEntity.badRequest().build())
         );
     }
 }

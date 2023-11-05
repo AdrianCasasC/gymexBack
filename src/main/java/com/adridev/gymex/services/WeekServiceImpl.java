@@ -20,4 +20,14 @@ public class WeekServiceImpl implements WeekService{
     public List<Week> getAllWeeks(String userId) {
         return weekDao.getAllDBWeeks(userId);
     }
+
+    @Override
+    public List<Week> editWeek(String userId, Week editedWeek) {
+        return weekDao.putDBWeek(userId, editedWeek);
+    }
+
+    @Override
+    public List<Week> postNewWeek(String userId, Week newWeek) {
+        return weekDao.postWeekToDB(userId, newWeek);
+    }
 }
