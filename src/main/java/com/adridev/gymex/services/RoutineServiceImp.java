@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoutineServiceImp implements RoutineService {
@@ -16,7 +17,7 @@ public class RoutineServiceImp implements RoutineService {
         this.routineDao = routineDao;
     }
     @Override
-    public List<Routine> getAllRoutines(String userId) {
+    public Optional<List<Routine>> getAllRoutines(String userId) {
         return routineDao.getAllDBRoutines(userId);
     }
 
@@ -26,7 +27,7 @@ public class RoutineServiceImp implements RoutineService {
     }
 
     @Override
-    public Routine editRoutine(String userId, Routine editedRoutine) {
+    public Optional<Routine> editRoutine(String userId, Routine editedRoutine) {
         return routineDao.editDBRoutine(userId, editedRoutine);
     }
 }

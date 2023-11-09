@@ -28,8 +28,8 @@ public class RoutineDaoImp implements RoutineDao {
         databaseRoutine.put("id1", routines);
     }
     @Override
-    public List<Routine> getAllDBRoutines(String userId) {
-        return databaseRoutine.get(userId);
+    public Optional<List<Routine>> getAllDBRoutines(String userId) {
+        return Optional.ofNullable(databaseRoutine.get(userId));
     }
 
     @Override
@@ -46,22 +46,26 @@ public class RoutineDaoImp implements RoutineDao {
     }
 
     @Override
-    public OptionalInt findRoutineIndexById(String userId, UUID routineId) {
+    public Optional<Routine> findRoutineIndexById(String userId, UUID routineId) {
         List<Routine> userDatabaseRoutines = databaseRoutine.get(userId);
 
-        return IntStream.range(0, userDatabaseRoutines.size())
-                .filter(i -> userDatabaseRoutines.get(i).getId().equals(routineId))
-                .findFirst();
+        return userDatabaseRoutines.stream().filter(routine -> routine.getId().equals(routineId)).findFirst();
+
     }
 
     @Override
-    public Routine editDBRoutine(String userId, Routine editedRoutine) {
-        OptionalInt foundRoutineIndex = this.findRoutineIndexById(userId, editedRoutine.getId());
+    public  Optional<Routine> editDBRoutine(String userId, Routine editedRoutine) {
+        Optional<Routine> foundRoutine = this.findRoutineIndexById(userId, editedRoutine.getId());
         List<Routine> userDatabaseRoutines = databaseRoutine.get(userId);
-        if (foundRoutineIndex.isPresent()) {
-            userDatabaseRoutines.set(foundRoutineIndex.getAsInt(), editedRoutine);
-            return editedRoutine;
+        if (foundRoutine.isPresent()) {
+            userDatabaseRoutines.forEach(routine -> {
+                if (routine.getId().equals(editedRoutine.getId())) {
+                    routine.setName(editedRoutine.getName());
+                    routine.setExercises(editedRoutine.getExercises());
+                }
+            });
+            return Optional.of(editedRoutine);
         }
-        return null;
+        return Optional.empty();
     }
 }

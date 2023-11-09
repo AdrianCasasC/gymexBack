@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WeekServiceImpl implements WeekService{
@@ -17,7 +18,7 @@ public class WeekServiceImpl implements WeekService{
     }
 
     @Override
-    public List<Week> getAllWeeks(String userId) {
+    public Optional<List<Week>> getAllWeeks(String userId) {
         return weekDao.getAllDBWeeks(userId);
     }
 

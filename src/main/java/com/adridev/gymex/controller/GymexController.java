@@ -29,8 +29,7 @@ public class GymexController {
     @GetMapping("routines/{userId}")
     public CompletableFuture<ResponseEntity<List<Routine>>> getRoutines(@PathVariable String userId) {
         return CompletableFuture.completedFuture(
-                Optional
-                        .of(routineService.getAllRoutines(userId))
+                routineService.getAllRoutines(userId)
                         .map(routines -> ResponseEntity.ok().body(routines))
                         .orElse(ResponseEntity.notFound().build())
         );
@@ -40,8 +39,7 @@ public class GymexController {
     @PutMapping("routines/{userId}")
     public CompletableFuture<ResponseEntity<Routine>> putRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
         return CompletableFuture.completedFuture(
-                Optional
-                        .ofNullable(routineService.editRoutine(userId, newRoutine))
+                routineService.editRoutine(userId, newRoutine)
                         .map(routine -> ResponseEntity.ok().body(routine))
                         .orElse(ResponseEntity.notFound().build())
         );
@@ -60,8 +58,7 @@ public class GymexController {
     @GetMapping("weeks/{userId}")
     public CompletableFuture<ResponseEntity<List<Week>>> getWeeks(@PathVariable String userId) {
         return CompletableFuture.completedFuture(
-                Optional
-                        .of(weekService.getAllWeeks(userId))
+                weekService.getAllWeeks(userId)
                         .map(weeks -> ResponseEntity.ok().body(weeks))
                         .orElse(ResponseEntity.notFound().build())
         );

@@ -22,26 +22,27 @@ public class WeekDaoImp implements WeekDao{
 
         UUID idWeek1 = UUID.randomUUID();
 
-        List<Routine> routines = routineDao.getAllDBRoutines(userId);
+        Optional<List<Routine>> routines = routineDao.getAllDBRoutines(userId);
 
-        List<Day> days = new ArrayList<>();
-        days.add(new Day("monday", routines.get(0)));
-        days.add(new Day("tuesday", routines.get(0)));
-        days.add(new Day("wednesday", routines.get(0)));
-        days.add(new Day("thursday", routines.get(0)));
-        days.add(new Day("friday", routines.get(0)));
-        days.add(new Day("saturday", routines.get(0)));
-        days.add(new Day("sunday", routines.get(0)));
+        if (routines.isPresent()) {
+            List<Day> days = new ArrayList<>();
+            days.add(new Day("monday", routines.get().get(0)));
+            days.add(new Day("tuesday", routines.get().get(0)));
+            days.add(new Day("wednesday", routines.get().get(0)));
+            days.add(new Day("thursday", routines.get().get(0)));
+            days.add(new Day("friday", routines.get().get(0)));
+            days.add(new Day("saturday", routines.get().get(0)));
+            days.add(new Day("sunday", routines.get().get(0)));
 
-        List<Week> weeks = new ArrayList<>();
-        weeks.add(new Week(idWeek1, "Semana 1", days));
+            List<Week> weeks = new ArrayList<>();
+            weeks.add(new Week(idWeek1, "Semana 1", days));
 
-
-        databaseWeeks.put(userId, weeks);
+            databaseWeeks.put(userId, weeks);
+        }
     }
     @Override
-    public List<Week> getAllDBWeeks(String userId) {
-        return databaseWeeks.get(userId);
+    public Optional<List<Week>> getAllDBWeeks(String userId) {
+        return Optional.ofNullable(databaseWeeks.get(userId));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class WeekDaoImp implements WeekDao{
     public List<Week> putDBWeek(String userId, Week editedWeek) {
         List<Week> userDatabaseWeeks = databaseWeeks.get(userId);
         OptionalInt weekIndexToEdit = this.findWeekIndexById(userId, editedWeek.getId());
-        System.out.println("Index de la semana; " + weekIndexToEdit);
+
         if (weekIndexToEdit.isPresent()) {
             userDatabaseWeeks.set(weekIndexToEdit.getAsInt(), editedWeek);
             return userDatabaseWeeks;
