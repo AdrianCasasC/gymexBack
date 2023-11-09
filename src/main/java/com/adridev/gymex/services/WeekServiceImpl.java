@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class WeekServiceImpl implements WeekService{
@@ -20,6 +21,11 @@ public class WeekServiceImpl implements WeekService{
     @Override
     public Optional<List<Week>> getAllWeeks(String userId) {
         return weekDao.getAllDBWeeks(userId);
+    }
+
+    @Override
+    public Optional<Week> getDBWeekById(String userId, UUID weekId) {
+        return weekDao.getWeekById(userId, weekId);
     }
 
     @Override

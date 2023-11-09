@@ -46,6 +46,12 @@ public class WeekDaoImp implements WeekDao{
     }
 
     @Override
+    public Optional<Week> getWeekById(String userId, UUID weekId) {
+        Optional<List<Week>> weeks = this.getAllDBWeeks(userId);
+        return weeks.flatMap(weekList -> weekList.stream().filter(week -> week.getId().equals(weekId)).findFirst());
+    }
+
+    @Override
     public OptionalInt findWeekIndexById(String userId, UUID weekId) {
         List<Week> userDatabaseWeeks = databaseWeeks.get(userId);
 

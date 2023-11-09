@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -60,6 +61,15 @@ public class GymexController {
         return CompletableFuture.completedFuture(
                 weekService.getAllWeeks(userId)
                         .map(weeks -> ResponseEntity.ok().body(weeks))
+                        .orElse(ResponseEntity.notFound().build())
+        );
+    }
+
+    @GetMapping("weeks/{userId}/{weekId}")
+    public CompletableFuture<ResponseEntity<Week>> getWeekById(@PathVariable String userId, @PathVariable UUID weekId) {
+        return CompletableFuture.completedFuture(
+                weekService.getDBWeekById(userId, weekId)
+                        .map(week -> ResponseEntity.ok().body(week))
                         .orElse(ResponseEntity.notFound().build())
         );
     }
