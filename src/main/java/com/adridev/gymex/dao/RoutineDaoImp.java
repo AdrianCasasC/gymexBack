@@ -6,7 +6,6 @@ import com.adridev.gymex.models.Serie;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Repository
 public class RoutineDaoImp implements RoutineDao {
@@ -17,7 +16,7 @@ public class RoutineDaoImp implements RoutineDao {
         UUID idRoutine1 = UUID.randomUUID();
 
         List<Serie> series = new ArrayList<>();
-        series.add(new Serie(200, 8));
+        series.add(new Serie(200, 8, false, new ArrayList<>()));
 
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise("inclineBarBenchPress", series));

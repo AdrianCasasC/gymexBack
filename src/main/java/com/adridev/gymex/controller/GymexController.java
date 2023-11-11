@@ -75,10 +75,10 @@ public class GymexController {
     }
 
     @PutMapping ("weeks/{userId}")
-    public CompletableFuture<ResponseEntity<List<Week>>> putWeek(@PathVariable String userId, @RequestBody Week newWeek) {
+    public CompletableFuture<ResponseEntity<List<Week>>> putWeek(@PathVariable String userId, @RequestBody Week editedWeek) {
         return CompletableFuture.completedFuture(
                 Optional
-                        .of(weekService.editWeek(userId, newWeek))
+                        .of(weekService.editWeek(userId, editedWeek))
                         .map(weeks -> ResponseEntity.ok().body(weeks))
                         .orElse(ResponseEntity.notFound().build())
         );
