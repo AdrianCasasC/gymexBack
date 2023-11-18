@@ -82,4 +82,15 @@ public class WeekDaoImp implements WeekDao{
         }
         return weeks;
     }
+
+    @Override
+    public int deleteDBWeek(String userId, UUID weekId) {
+        Optional<Week> foundWeek = this.getWeekById(userId, weekId);
+        if (foundWeek.isPresent()) {
+            List<Week> weeks = databaseWeeks.get(userId);
+            weeks.removeIf(week -> week.getId().equals(weekId));
+            return 0;
+        }
+        return -1;
+    }
 }

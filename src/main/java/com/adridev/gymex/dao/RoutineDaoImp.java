@@ -3,6 +3,7 @@ package com.adridev.gymex.dao;
 import com.adridev.gymex.models.Exercise;
 import com.adridev.gymex.models.Routine;
 import com.adridev.gymex.models.Serie;
+import com.adridev.gymex.models.Week;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -42,6 +43,23 @@ public class RoutineDaoImp implements RoutineDao {
         //TODO: de momento como solo hay una, se meten todas las rutinas nuevas en 'databaseRoutine'
         databaseRoutine.put(userId, routines);
         return newRoutine;
+    }
+
+    @Override
+    public int deleteDBRoutine(String userId, UUID routineId) {
+        Optional<Routine> foundRoutine = this.getRoutineById(userId, routineId);
+        if (foundRoutine.isPresent()) {
+            List<Routine> routines = databaseRoutine.get(userId);
+            routines.removeIf(routine -> routine.getId().equals(routineId));
+            return 0;
+        }
+        return -1;
+    }
+
+    @Override
+    public Optional<Routine> getRoutineById(String userId, UUID routineId) {
+        Optional<List<Routine>> routines = this.getAllDBRoutines(userId);
+        return routines.flatMap(routineList -> routineList.stream().filter(routine -> routine.getId().equals(routineId)).findFirst());
     }
 
     @Override

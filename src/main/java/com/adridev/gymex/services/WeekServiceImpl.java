@@ -37,4 +37,9 @@ public class WeekServiceImpl implements WeekService{
     public List<Week> postNewWeek(String userId, Week newWeek) {
         return weekDao.postWeekToDB(userId, newWeek);
     }
+
+    @Override
+    public int deleteWeek(String userId, UUID weekId) {
+        return weekDao.deleteDBWeek(userId, weekId);
+    }
 }

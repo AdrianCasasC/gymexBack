@@ -14,4 +14,6 @@ public interface WeekService {
     public List<Week> editWeek(String userId, Week editedWeek);
 
     public List<Week> postNewWeek(String userId, Week newWeek);
+
+    public int deleteWeek(String userId, UUID weekId);
 }

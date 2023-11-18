@@ -18,4 +18,5 @@ public interface WeekDao {
     public List<Week> putDBWeek(String userId, Week editedWeek);
 
     public List<Week> postWeekToDB(String userId, Week newWeek);
+    public int deleteDBWeek(String userId, UUID weekId);
 }

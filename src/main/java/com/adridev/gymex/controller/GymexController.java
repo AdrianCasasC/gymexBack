@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,9 +39,9 @@ public class GymexController {
     }
 
     @PutMapping("routines/{userId}")
-    public CompletableFuture<ResponseEntity<Routine>> putRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
+    public CompletableFuture<ResponseEntity<Routine>> putRoutine(@PathVariable String userId, @RequestBody Routine editedRoutine) {
         return CompletableFuture.completedFuture(
-                routineService.editRoutine(userId, newRoutine)
+                routineService.editRoutine(userId, editedRoutine)
                         .map(routine -> ResponseEntity.ok().body(routine))
                         .orElse(ResponseEntity.notFound().build())
         );
@@ -54,6 +55,15 @@ public class GymexController {
                         .map(routine -> ResponseEntity.ok().body(routine))
                         .orElse(ResponseEntity.badRequest().build())
         );
+    }
+
+    @DeleteMapping("routines/{userId}/{routineId}")
+    public CompletableFuture<ResponseEntity<Void>> deleteRoutine(@PathVariable String userId, @PathVariable UUID routineId) {
+        int response = routineService.deleteRoutine(userId, routineId);
+        if (response == 0) {
+            return CompletableFuture.completedFuture(ResponseEntity.ok().build());
+        }
+        return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
     }
 
     @GetMapping("weeks/{userId}")
@@ -92,5 +102,14 @@ public class GymexController {
                         .map(weeks -> ResponseEntity.ok().body(weeks))
                         .orElse(ResponseEntity.badRequest().build())
         );
+    }
+
+    @DeleteMapping("weeks/{userId}/{weekId}")
+    public CompletableFuture<ResponseEntity<Void>> deleteWeek(@PathVariable String userId, @PathVariable UUID weekId) {
+        int response = weekService.deleteWeek(userId, weekId);
+        if (response == 0) {
+            return CompletableFuture.completedFuture(ResponseEntity.ok().build());
+        }
+        return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
     }
 }
