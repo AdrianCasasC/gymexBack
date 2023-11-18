@@ -11,7 +11,7 @@ public interface RoutineService {
 
     Routine postRoutine(String userId, Routine newRoutine);
 
-    public int deleteRoutine(String userId, UUID routineId);
+    int deleteRoutine(String userId, UUID routineId);
 
     Optional<Routine> editRoutine(String userId, Routine editedRoutine);
 }

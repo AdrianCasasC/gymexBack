@@ -3,7 +3,6 @@ package com.adridev.gymex.dao;
 import com.adridev.gymex.models.Exercise;
 import com.adridev.gymex.models.Routine;
 import com.adridev.gymex.models.Serie;
-import com.adridev.gymex.models.Week;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

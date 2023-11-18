@@ -9,14 +9,14 @@ import java.util.UUID;
 
 public interface WeekDao {
 
-    public Optional<List<Week>> getAllDBWeeks(String userId);
+    Optional<List<Week>> getAllDBWeeks(String userId);
 
-    public Optional<Week> getWeekById(String userId, UUID weekId);
+    Optional<Week> getWeekById(String userId, UUID weekId);
 
-    public OptionalInt findWeekIndexById(String userId, UUID weekId);
+    OptionalInt findWeekIndexById(String userId, UUID weekId);
 
-    public List<Week> putDBWeek(String userId, Week editedWeek);
+    List<Week> putDBWeek(String userId, Week editedWeek);
 
-    public List<Week> postWeekToDB(String userId, Week newWeek);
-    public int deleteDBWeek(String userId, UUID weekId);
+    List<Week> postWeekToDB(String userId, Week newWeek);
+    int deleteDBWeek(String userId, UUID weekId);
 }
