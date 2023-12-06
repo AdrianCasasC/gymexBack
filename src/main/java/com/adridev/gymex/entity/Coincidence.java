@@ -1,6 +1,17 @@
-package com.adridev.gymex.models;
+package com.adridev.gymex.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+import java.util.UUID;
+
+@Entity
 public class Coincidence {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer coincidenceId;
     private String weekDay;
     private Integer reps;
     private Integer weight;

@@ -1,33 +1,33 @@
-package com.adridev.gymex.models;
+package com.adridev.gymex.entity;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Entity
 public class Routine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
+    @OneToMany( cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
-    public Routine(UUID id, String name, List<Exercise> exercises) {
-        this.id = id;
+    public Routine(String name, List<Exercise> exercises) {
         this.name = name;
         this.exercises = exercises;
     }
 
     public Routine() {}
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

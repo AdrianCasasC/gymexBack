@@ -1,13 +1,12 @@
 package com.adridev.gymex.services;
 
 import com.adridev.gymex.dao.RoutineDao;
-import com.adridev.gymex.models.Routine;
+import com.adridev.gymex.entity.Routine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class RoutineServiceImp implements RoutineService {
@@ -28,8 +27,8 @@ public class RoutineServiceImp implements RoutineService {
     }
 
     @Override
-    public int deleteRoutine(String userId, UUID routineId) {
-        return routineDao.deleteDBRoutine(userId, routineId);
+    public void deleteRoutine(String userId, Integer routineId) {
+        routineDao.deleteDBRoutine(userId, routineId);
     }
 
     @Override

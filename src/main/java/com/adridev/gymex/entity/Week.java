@@ -1,35 +1,31 @@
-package com.adridev.gymex.models;
+package com.adridev.gymex.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.stereotype.Component;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Entity
 public class Week {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Integer id;
     private String name;
+    @OneToMany( cascade = CascadeType.ALL)
     private List<Day> days;
 
-    public Week(UUID id, String name, List<Day> days) {
-        this.id = id;
+    public Week(String name, List<Day> days) {
         this.name = name;
         this.days = days;
     }
 
     public Week() {}
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,13 +1,16 @@
-package com.adridev.gymex.models;
+package com.adridev.gymex.entity;
 
-import org.springframework.stereotype.Component;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
-@Component
+@Entity
 public class Day {
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
+    @OneToOne
     private Routine routine;
 
     public Day(String name, Routine routine) {

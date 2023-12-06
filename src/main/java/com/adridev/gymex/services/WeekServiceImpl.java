@@ -1,7 +1,7 @@
 package com.adridev.gymex.services;
 
 import com.adridev.gymex.dao.WeekDao;
-import com.adridev.gymex.models.Week;
+import com.adridev.gymex.entity.Week;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

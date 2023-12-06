@@ -1,7 +1,7 @@
 package com.adridev.gymex.controller;
 
-import com.adridev.gymex.models.Routine;
-import com.adridev.gymex.models.Week;
+import com.adridev.gymex.entity.Routine;
+import com.adridev.gymex.entity.Week;
 import com.adridev.gymex.services.RoutineService;
 import com.adridev.gymex.services.WeekService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping(path = "/gymex")
 public class GymexController {
     RoutineService routineService;
-    WeekService weekService;
+    WeekService weekService;;
 
     @Autowired
     public GymexController(RoutineService routineService, WeekService weekService) {
@@ -29,6 +29,7 @@ public class GymexController {
 
     @GetMapping("routines/{userId}")
     public CompletableFuture<ResponseEntity<List<Routine>>> getRoutines(@PathVariable String userId) {
+
         return CompletableFuture.completedFuture(
                 routineService.getAllRoutines(userId)
                         .map(routines -> ResponseEntity.ok().body(routines))
@@ -57,12 +58,10 @@ public class GymexController {
     }
 
     @DeleteMapping("routines/{userId}/{routineId}")
-    public CompletableFuture<ResponseEntity<Void>> deleteRoutine(@PathVariable String userId, @PathVariable UUID routineId) {
-        int response = routineService.deleteRoutine(userId, routineId);
-        if (response == 0) {
-            return CompletableFuture.completedFuture(ResponseEntity.ok().build());
-        }
-        return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
+    public CompletableFuture<ResponseEntity<Void>> deleteRoutine(@PathVariable String userId, @PathVariable Integer routineId) {
+        routineService.deleteRoutine(userId, routineId);
+        return CompletableFuture.completedFuture(ResponseEntity.ok().build());
+
     }
 
     @GetMapping("weeks/{userId}")

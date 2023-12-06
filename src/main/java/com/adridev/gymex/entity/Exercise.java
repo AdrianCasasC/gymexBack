@@ -1,13 +1,18 @@
-package com.adridev.gymex.models;
+package com.adridev.gymex.entity;
 
-import org.springframework.stereotype.Component;
+import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
-@Component
+@Entity
 public class Exercise {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer exerciseId;
     private String name;
+    @OneToMany( cascade = CascadeType.ALL)
     private List<Serie> series;
 
     public Exercise(String name, List<Serie> series) {

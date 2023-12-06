@@ -1,15 +1,20 @@
-package com.adridev.gymex.models;
+package com.adridev.gymex.entity;
 
-import org.springframework.stereotype.Component;
+import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
-@Component
+@Entity
 public class Serie {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer serieId;
     private Integer weight;
     private Integer reps;
     private Boolean showLastWeek;
+    @OneToMany( cascade = CascadeType.ALL)
     private List<Coincidence> lastWeekCoincidences;
 
     public Serie(Integer weight, Integer reps, Boolean showLastWeek, List<Coincidence> lastWeekCoincidences) {
