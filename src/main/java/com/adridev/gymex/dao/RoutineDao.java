@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface RoutineDao {
     Optional<List<Routine>> getAllDBRoutines(String userId);
-    Optional<Routine> getRoutineById(String userId, Integer routineId);
+    Optional<Routine> getRoutineById(String userId, UUID routineId);
     Routine postNewRoutineToDB(String userId, Routine newRoutine);
-    void deleteDBRoutine(String userId, Integer routineId);
+    void deleteDBRoutine(String userId, UUID routineId);
     Optional<Routine> findRoutineIndexById(String userId, Integer routineId);
     Optional<Routine> editDBRoutine(String userId, Routine editedRoutine);
 }

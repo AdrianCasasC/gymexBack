@@ -1,6 +1,8 @@
 package com.adridev.gymex.services;
 
 import com.adridev.gymex.dao.WeekDao;
+import com.adridev.gymex.entity.Day;
+import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Week;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,17 +31,22 @@ public class WeekServiceImpl implements WeekService{
     }
 
     @Override
-    public List<Week> editWeek(String userId, Week editedWeek) {
+    public Week editWeek(String userId, Week editedWeek) {
         return weekDao.putDBWeek(userId, editedWeek);
     }
 
     @Override
-    public List<Week> postNewWeek(String userId, Week newWeek) {
+    public Day editWeekDayRoutine(String userId, Integer dayId, Routine editedRoutine) {
+        return weekDao.putDBWeekDayRoutine(userId, dayId, editedRoutine);
+    }
+
+    @Override
+    public Week postNewWeek(String userId, Week newWeek) {
         return weekDao.postWeekToDB(userId, newWeek);
     }
 
     @Override
-    public int deleteWeek(String userId, UUID weekId) {
-        return weekDao.deleteDBWeek(userId, weekId);
+    public void deleteWeek(String userId, UUID weekId) {
+        weekDao.deleteDBWeek(userId, weekId);
     }
 }

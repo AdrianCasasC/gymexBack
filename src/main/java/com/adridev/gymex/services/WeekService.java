@@ -1,5 +1,7 @@
 package com.adridev.gymex.services;
 
+import com.adridev.gymex.entity.Day;
+import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Week;
 
 import java.util.List;
@@ -11,9 +13,11 @@ public interface WeekService {
 
     Optional<Week> getDBWeekById(String userId, UUID weekId);
 
-    List<Week> editWeek(String userId, Week editedWeek);
+    Week editWeek(String userId, Week editedWeek);
 
-    List<Week> postNewWeek(String userId, Week newWeek);
+    Day editWeekDayRoutine(String userId, Integer dayId, Routine editedRoutine);
 
-    int deleteWeek(String userId, UUID weekId);
+    Week postNewWeek(String userId, Week newWeek);
+
+    void deleteWeek(String userId, UUID weekId);
 }

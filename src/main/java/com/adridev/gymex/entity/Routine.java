@@ -10,24 +10,26 @@ import java.util.UUID;
 public class Routine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String name;
+    private Boolean general;
     @OneToMany( cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
-    public Routine(String name, List<Exercise> exercises) {
+    public Routine(String name, Boolean general, List<Exercise> exercises) {
         this.name = name;
+        this.general = general;
         this.exercises = exercises;
     }
 
     public Routine() {}
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -37,6 +39,14 @@ public class Routine {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getGeneral() {
+        return general;
+    }
+
+    public void setGeneral(Boolean general) {
+        this.general = general;
     }
 
     public List<Exercise> getExercises() {
@@ -52,6 +62,7 @@ public class Routine {
         return "Routine{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", general='" + general + '\'' +
                 ", exercises=" + exercises +
                 '}';
     }

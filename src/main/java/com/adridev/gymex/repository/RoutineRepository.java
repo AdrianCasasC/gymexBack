@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface RoutineRepository extends CrudRepository<Routine, Integer> {
+public interface RoutineRepository extends CrudRepository<Routine, UUID> {
     List<Routine> findAllBy();
 
+    List<Routine> findAllByGeneral(Boolean general);
     @Override
-    void deleteById(Integer routineId);
+    void deleteById(UUID routineId);
 
     @Override
-    Optional<Routine> findById(Integer uuid);
+    Optional<Routine> findById(UUID uuid);
 }

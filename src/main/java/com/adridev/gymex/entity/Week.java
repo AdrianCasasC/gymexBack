@@ -1,6 +1,7 @@
 package com.adridev.gymex.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,8 +9,8 @@ import java.util.UUID;
 @Entity
 public class Week {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String name;
     @OneToMany( cascade = CascadeType.ALL)
     private List<Day> days;
@@ -21,11 +22,11 @@ public class Week {
 
     public Week() {}
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

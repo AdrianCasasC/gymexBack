@@ -1,5 +1,6 @@
 package com.adridev.gymex.controller;
 
+import com.adridev.gymex.entity.Day;
 import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Week;
 import com.adridev.gymex.services.RoutineService;
@@ -46,9 +47,21 @@ public class GymexController {
                         .orElse(ResponseEntity.notFound().build())
         );
     }
+    @PutMapping ("{userId}/routines/associate/{dayId}")
+    public CompletableFuture<ResponseEntity<Day>> putWeekDayRoutine(@PathVariable String userId, @PathVariable Integer dayId, @RequestBody Routine editedRoutine) {
+        editedRoutine.setGeneral(false);
+        return CompletableFuture.completedFuture(
+                Optional
+                        .of(weekService.editWeekDayRoutine(userId, dayId, editedRoutine))
+                        .map(weeks -> ResponseEntity.ok().body(weeks))
+                        .orElse(ResponseEntity.notFound().build())
+        );
+    }
+
 
     @PostMapping("routines/{userId}")
     public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
+        newRoutine.setGeneral(true);
         return CompletableFuture.completedFuture(
                 Optional
                         .ofNullable(routineService.postRoutine(userId, newRoutine))
@@ -58,7 +71,7 @@ public class GymexController {
     }
 
     @DeleteMapping("routines/{userId}/{routineId}")
-    public CompletableFuture<ResponseEntity<Void>> deleteRoutine(@PathVariable String userId, @PathVariable Integer routineId) {
+    public CompletableFuture<ResponseEntity<Void>> deleteRoutine(@PathVariable String userId, @PathVariable UUID routineId) {
         routineService.deleteRoutine(userId, routineId);
         return CompletableFuture.completedFuture(ResponseEntity.ok().build());
 
@@ -83,7 +96,7 @@ public class GymexController {
     }
 
     @PutMapping ("weeks/{userId}")
-    public CompletableFuture<ResponseEntity<List<Week>>> putWeek(@PathVariable String userId, @RequestBody Week editedWeek) {
+    public CompletableFuture<ResponseEntity<Week>> putWeek(@PathVariable String userId, @RequestBody Week editedWeek) {
         return CompletableFuture.completedFuture(
                 Optional
                         .of(weekService.editWeek(userId, editedWeek))
@@ -93,7 +106,7 @@ public class GymexController {
     }
 
     @PostMapping("weeks/{userId}")
-    public CompletableFuture<ResponseEntity<List<Week>>> postWeek(@PathVariable String userId, @RequestBody Week newWeek) {
+    public CompletableFuture<ResponseEntity<Week>> postWeek(@PathVariable String userId, @RequestBody Week newWeek) {
         return CompletableFuture.completedFuture(
                 Optional
                         .of(weekService.postNewWeek(userId, newWeek))
@@ -104,10 +117,12 @@ public class GymexController {
 
     @DeleteMapping("weeks/{userId}/{weekId}")
     public CompletableFuture<ResponseEntity<Void>> deleteWeek(@PathVariable String userId, @PathVariable UUID weekId) {
-        int response = weekService.deleteWeek(userId, weekId);
+        /*int response = weekService.deleteWeek(userId, weekId);
         if (response == 0) {
             return CompletableFuture.completedFuture(ResponseEntity.ok().build());
         }
-        return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
+        return CompletableFuture.completedFuture(ResponseEntity.notFound().build());*/
+        weekService.deleteWeek(userId, weekId);
+        return CompletableFuture.completedFuture(ResponseEntity.ok().build());
     }
 }

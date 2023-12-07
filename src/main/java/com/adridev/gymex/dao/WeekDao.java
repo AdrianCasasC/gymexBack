@@ -1,5 +1,7 @@
 package com.adridev.gymex.dao;
 
+import com.adridev.gymex.entity.Day;
+import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Week;
 
 import java.util.List;
@@ -13,10 +15,12 @@ public interface WeekDao {
 
     Optional<Week> getWeekById(String userId, UUID weekId);
 
-    OptionalInt findWeekIndexById(String userId, Integer weekId);
+    //OptionalInt findWeekIndexById(String userId, Integer weekId);
 
-    List<Week> putDBWeek(String userId, Week editedWeek);
+    Week putDBWeek(String userId, Week editedWeek);
 
-    List<Week> postWeekToDB(String userId, Week newWeek);
-    int deleteDBWeek(String userId, UUID weekId);
+    Day putDBWeekDayRoutine(String userId, Integer dayId, Routine editedRoutine);
+
+    Week postWeekToDB(String userId, Week newWeek);
+    void deleteDBWeek(String userId, UUID weekId);
 }

@@ -10,7 +10,7 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Routine routine;
 
     public Day(String name, Routine routine) {
@@ -19,6 +19,14 @@ public class Day {
     }
 
     public Day() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

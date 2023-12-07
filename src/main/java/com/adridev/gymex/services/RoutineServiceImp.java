@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RoutineServiceImp implements RoutineService {
@@ -27,7 +28,7 @@ public class RoutineServiceImp implements RoutineService {
     }
 
     @Override
-    public void deleteRoutine(String userId, Integer routineId) {
+    public void deleteRoutine(String userId, UUID routineId) {
         routineDao.deleteDBRoutine(userId, routineId);
     }
 
