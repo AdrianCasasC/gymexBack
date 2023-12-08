@@ -14,10 +14,12 @@ public class Routine {
     private UUID id;
     private String name;
     private Boolean general;
+    private UUID userId;
     @OneToMany( cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
-    public Routine(String name, Boolean general, List<Exercise> exercises) {
+    public Routine(String name, Boolean general, UUID userId, List<Exercise> exercises) {
+        this.userId = userId;
         this.name = name;
         this.general = general;
         this.exercises = exercises;
@@ -49,6 +51,14 @@ public class Routine {
         this.general = general;
     }
 
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
     public List<Exercise> getExercises() {
         return exercises;
     }
@@ -63,6 +73,7 @@ public class Routine {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", general='" + general + '\'' +
+                ", userId='" + userId + '\'' +
                 ", exercises=" + exercises +
                 '}';
     }

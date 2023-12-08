@@ -2,8 +2,10 @@ package com.adridev.gymex.controller;
 
 import com.adridev.gymex.entity.Day;
 import com.adridev.gymex.entity.Routine;
+import com.adridev.gymex.entity.User;
 import com.adridev.gymex.entity.Week;
 import com.adridev.gymex.services.RoutineService;
+import com.adridev.gymex.services.UserService;
 import com.adridev.gymex.services.WeekService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,33 @@ import java.util.concurrent.CompletableFuture;
 public class GymexController {
     RoutineService routineService;
     WeekService weekService;;
+    UserService userService;
 
     @Autowired
-    public GymexController(RoutineService routineService, WeekService weekService) {
+    public GymexController(RoutineService routineService, WeekService weekService, UserService userService) {
         this.routineService = routineService;
         this.weekService = weekService;
+        this.userService = userService;
+    }
 
+    @PostMapping("user/register")
+    public CompletableFuture<ResponseEntity<User>> registerUser(@RequestBody User newUser) {
+        return CompletableFuture.completedFuture(
+                ResponseEntity.ok().body(userService.register(newUser))
+        );
+    }
+
+    @GetMapping("user/{name}/{password}")
+    public CompletableFuture<ResponseEntity<User>> getUserById(@PathVariable String name, @PathVariable String password) {
+        return CompletableFuture.completedFuture(
+                userService.getUserByNamePass(name, password)
+                        .map(user -> ResponseEntity.ok().body(user))
+                        .orElse(ResponseEntity.notFound().build())
+        );
     }
 
     @GetMapping("routines/{userId}")
-    public CompletableFuture<ResponseEntity<List<Routine>>> getRoutines(@PathVariable String userId) {
+    public CompletableFuture<ResponseEntity<List<Routine>>> getRoutines(@PathVariable UUID userId) {
 
         return CompletableFuture.completedFuture(
                 routineService.getAllRoutines(userId)
@@ -60,7 +79,8 @@ public class GymexController {
 
 
     @PostMapping("routines/{userId}")
-    public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable String userId, @RequestBody Routine newRoutine) {
+    public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable UUID userId, @RequestBody Routine newRoutine) {
+        newRoutine.setUserId(userId);
         newRoutine.setGeneral(true);
         return CompletableFuture.completedFuture(
                 Optional
@@ -78,7 +98,7 @@ public class GymexController {
     }
 
     @GetMapping("weeks/{userId}")
-    public CompletableFuture<ResponseEntity<List<Week>>> getWeeks(@PathVariable String userId) {
+    public CompletableFuture<ResponseEntity<List<Week>>> getWeeks(@PathVariable UUID userId) {
         return CompletableFuture.completedFuture(
                 weekService.getAllWeeks(userId)
                         .map(weeks -> ResponseEntity.ok().body(weeks))
@@ -106,7 +126,8 @@ public class GymexController {
     }
 
     @PostMapping("weeks/{userId}")
-    public CompletableFuture<ResponseEntity<Week>> postWeek(@PathVariable String userId, @RequestBody Week newWeek) {
+    public CompletableFuture<ResponseEntity<Week>> postWeek(@PathVariable UUID userId, @RequestBody Week newWeek) {
+        newWeek.setUserId(userId);
         return CompletableFuture.completedFuture(
                 Optional
                         .of(weekService.postNewWeek(userId, newWeek))

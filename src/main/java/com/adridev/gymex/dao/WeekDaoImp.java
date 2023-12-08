@@ -26,8 +26,8 @@ public class WeekDaoImp implements WeekDao{
     }
 
     @Override
-    public Optional<List<Week>> getAllDBWeeks(String userId) {
-        return Optional.of(weekRepository.findAllBy());
+    public Optional<List<Week>> getAllDBWeeks(UUID userId) {
+        return Optional.of(weekRepository.findAllByUserId(userId));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class WeekDaoImp implements WeekDao{
     }
 
     @Override
-    public Week postWeekToDB(String userId, Week newWeek) {
+    public Week postWeekToDB(UUID userId, Week newWeek) {
         return weekRepository.save(newWeek);
     }
 

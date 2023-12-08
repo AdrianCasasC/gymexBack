@@ -16,12 +16,12 @@ public class RoutineDaoImp implements RoutineDao {
     private RoutineRepository routineRepository;
     Map<String, List<Routine>> databaseRoutine = new HashMap<>();
     @Override
-    public Optional<List<Routine>> getAllDBRoutines(String userId) {
-        return Optional.ofNullable(routineRepository.findAllByGeneral(true));
+    public Optional<List<Routine>> getAllDBRoutines(UUID userId) {
+        return Optional.ofNullable(routineRepository.findAllByGeneralAndUserId(true,userId));
     }
 
     @Override
-    public Routine postNewRoutineToDB(String userId, Routine newRoutine) {
+    public Routine postNewRoutineToDB(UUID userId, Routine newRoutine) {
         //TODO: cuando haya varios usuarios se tendrá que recuperar la rutina correspondiente al id del usuario
         //TODO: de momento como solo hay una, se meten todas las rutinas nuevas en 'databaseRoutine'
         routineRepository.save(newRoutine);

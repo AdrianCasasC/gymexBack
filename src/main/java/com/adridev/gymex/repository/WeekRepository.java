@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface WeekRepository extends CrudRepository<Week, UUID> {
-    List<Week> findAllBy();
+    List<Week> findAllByUserId(UUID userId);
 
     @Override
     Optional<Week> findById(UUID uuid);

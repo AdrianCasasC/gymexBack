@@ -7,9 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RoutineService {
-    Optional<List<Routine>> getAllRoutines(String userId);
+    Optional<List<Routine>> getAllRoutines(UUID userId);
 
-    Routine postRoutine(String userId, Routine newRoutine);
+    Routine postRoutine(UUID userId, Routine newRoutine);
 
     void deleteRoutine(String userId, UUID routineId);
 

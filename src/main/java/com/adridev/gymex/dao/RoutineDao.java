@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RoutineDao {
-    Optional<List<Routine>> getAllDBRoutines(String userId);
+    Optional<List<Routine>> getAllDBRoutines(UUID userId);
     Optional<Routine> getRoutineById(String userId, UUID routineId);
-    Routine postNewRoutineToDB(String userId, Routine newRoutine);
+    Routine postNewRoutineToDB(UUID userId, Routine newRoutine);
     void deleteDBRoutine(String userId, UUID routineId);
     Optional<Routine> findRoutineIndexById(String userId, Integer routineId);
     Optional<Routine> editDBRoutine(String userId, Routine editedRoutine);

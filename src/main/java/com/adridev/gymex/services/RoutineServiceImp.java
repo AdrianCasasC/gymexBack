@@ -18,12 +18,12 @@ public class RoutineServiceImp implements RoutineService {
         this.routineDao = routineDao;
     }
     @Override
-    public Optional<List<Routine>> getAllRoutines(String userId) {
+    public Optional<List<Routine>> getAllRoutines(UUID userId) {
         return routineDao.getAllDBRoutines(userId);
     }
 
     @Override
-    public Routine postRoutine(String userId, Routine newRoutine) {
+    public Routine postRoutine(UUID userId, Routine newRoutine) {
         return routineDao.postNewRoutineToDB(userId, newRoutine);
     }
 

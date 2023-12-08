@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface RoutineRepository extends CrudRepository<Routine, UUID> {
     List<Routine> findAllBy();
 
-    List<Routine> findAllByGeneral(Boolean general);
+    List<Routine> findAllByGeneralAndUserId(Boolean general, UUID userId);
     @Override
     void deleteById(UUID routineId);
 

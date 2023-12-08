@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface WeekDao {
 
-    Optional<List<Week>> getAllDBWeeks(String userId);
+    Optional<List<Week>> getAllDBWeeks(UUID userId);
 
     Optional<Week> getWeekById(String userId, UUID weekId);
 
@@ -21,6 +21,6 @@ public interface WeekDao {
 
     Day putDBWeekDayRoutine(String userId, Integer dayId, Routine editedRoutine);
 
-    Week postWeekToDB(String userId, Week newWeek);
+    Week postWeekToDB(UUID userId, Week newWeek);
     void deleteDBWeek(String userId, UUID weekId);
 }

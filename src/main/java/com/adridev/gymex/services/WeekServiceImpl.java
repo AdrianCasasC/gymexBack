@@ -4,6 +4,7 @@ import com.adridev.gymex.dao.WeekDao;
 import com.adridev.gymex.entity.Day;
 import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Week;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class WeekServiceImpl implements WeekService{
     }
 
     @Override
-    public Optional<List<Week>> getAllWeeks(String userId) {
+    public Optional<List<Week>> getAllWeeks(UUID userId) {
         return weekDao.getAllDBWeeks(userId);
     }
 
@@ -41,7 +42,7 @@ public class WeekServiceImpl implements WeekService{
     }
 
     @Override
-    public Week postNewWeek(String userId, Week newWeek) {
+    public Week postNewWeek(UUID userId, Week newWeek) {
         return weekDao.postWeekToDB(userId, newWeek);
     }
 
