@@ -1,7 +1,6 @@
 package com.adridev.gymex.entity;
 
 import jakarta.persistence.*;
-//import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;

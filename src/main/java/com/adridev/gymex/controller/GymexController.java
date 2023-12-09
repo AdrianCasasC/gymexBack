@@ -4,38 +4,56 @@ import com.adridev.gymex.entity.Day;
 import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.User;
 import com.adridev.gymex.entity.Week;
+import com.adridev.gymex.models.ValidationError;
 import com.adridev.gymex.services.RoutineService;
 import com.adridev.gymex.services.UserService;
 import com.adridev.gymex.services.WeekService;
+import com.adridev.gymex.validation.UserValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
+@Validated
 @RequestMapping(path = "/gymex")
 public class GymexController {
-    RoutineService routineService;
-    WeekService weekService;;
-    UserService userService;
+    private final RoutineService routineService;
+    private final WeekService weekService;;
+    private final UserService userService;
+    private final UserValidation userValidation;
+
 
     @Autowired
-    public GymexController(RoutineService routineService, WeekService weekService, UserService userService) {
+    public GymexController(RoutineService routineService, WeekService weekService, UserService userService, UserValidation userValidation) {
         this.routineService = routineService;
         this.weekService = weekService;
         this.userService = userService;
+        this.userValidation = userValidation;
     }
 
     @PostMapping("user/register")
-    public CompletableFuture<ResponseEntity<User>> registerUser(@RequestBody User newUser) {
-        return CompletableFuture.completedFuture(
-                ResponseEntity.ok().body(userService.register(newUser))
-        );
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User newUser) {
+        /*userValidation.validate(newUser, result);
+        if (result.hasErrors()) {
+            List<ValidationError> errors = new ArrayList<>();
+
+            result.getFieldErrors().forEach(error -> {
+                ValidationError validationError = new ValidationError();
+                validationError.setField(error.getField());
+                validationError.setMessage(error.getDefaultMessage());
+                errors.add(validationError);
+            });
+            System.out.println("Errores de BindingResult: " + errors);
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }*/
+        return ResponseEntity.ok().body(userService.register(newUser));
     }
 
     @GetMapping("user/{name}/{password}")

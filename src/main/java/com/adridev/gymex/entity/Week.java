@@ -1,7 +1,6 @@
 package com.adridev.gymex.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 import java.util.UUID;
