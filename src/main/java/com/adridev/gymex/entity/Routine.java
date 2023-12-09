@@ -2,6 +2,8 @@ package com.adridev.gymex.entity;
 
 import jakarta.persistence.*;
 
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,12 +18,14 @@ public class Routine {
     private UUID userId;
     @OneToMany( cascade = CascadeType.ALL)
     private List<Exercise> exercises;
+    private ZonedDateTime createdDate;
 
-    public Routine(String name, Boolean general, UUID userId, List<Exercise> exercises) {
+    public Routine(String name, Boolean general, UUID userId, List<Exercise> exercises, ZonedDateTime createdDate) {
         this.userId = userId;
         this.name = name;
         this.general = general;
         this.exercises = exercises;
+        this.createdDate = createdDate;
     }
 
     public Routine() {}
@@ -66,6 +70,14 @@ public class Routine {
         this.exercises = exercises;
     }
 
+    public ZonedDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
     @Override
     public String toString() {
         return "Routine{" +
@@ -74,6 +86,7 @@ public class Routine {
                 ", general='" + general + '\'' +
                 ", userId='" + userId + '\'' +
                 ", exercises=" + exercises +
+                ", createdDate=" + createdDate +
                 '}';
     }
 }

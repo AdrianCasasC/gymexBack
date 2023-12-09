@@ -8,6 +8,7 @@ import com.adridev.gymex.models.ValidationError;
 import com.adridev.gymex.services.RoutineService;
 import com.adridev.gymex.services.UserService;
 import com.adridev.gymex.services.WeekService;
+import com.adridev.gymex.services.ZoneDateTimeService;
 import com.adridev.gymex.validation.UserValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,15 @@ public class GymexController {
     private final RoutineService routineService;
     private final WeekService weekService;;
     private final UserService userService;
-    private final UserValidation userValidation;
+    private final ZoneDateTimeService zoneDateTimeService;
 
 
     @Autowired
-    public GymexController(RoutineService routineService, WeekService weekService, UserService userService, UserValidation userValidation) {
+    public GymexController(RoutineService routineService, WeekService weekService, UserService userService, ZoneDateTimeService zoneDateTimeService) {
         this.routineService = routineService;
         this.weekService = weekService;
         this.userService = userService;
-        this.userValidation = userValidation;
+        this.zoneDateTimeService = zoneDateTimeService;
     }
 
     @PostMapping("user/register")
@@ -96,6 +97,7 @@ public class GymexController {
     public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable UUID userId, @RequestBody Routine newRoutine) {
         newRoutine.setUserId(userId);
         newRoutine.setGeneral(true);
+        newRoutine.setCreatedDate(zoneDateTimeService.getZoneDateTime("Europe/Madrid"));
         return CompletableFuture.completedFuture(
                 Optional
                         .ofNullable(routineService.postRoutine(userId, newRoutine))
@@ -142,6 +144,7 @@ public class GymexController {
     @PostMapping("weeks/{userId}")
     public CompletableFuture<ResponseEntity<Week>> postWeek(@PathVariable UUID userId, @RequestBody Week newWeek) {
         newWeek.setUserId(userId);
+        newWeek.setCreatedDate(zoneDateTimeService.getZoneDateTime("Europe/Madrid"));
         return CompletableFuture.completedFuture(
                 Optional
                         .of(weekService.postNewWeek(userId, newWeek))

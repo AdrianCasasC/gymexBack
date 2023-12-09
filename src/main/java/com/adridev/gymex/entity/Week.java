@@ -2,6 +2,8 @@ package com.adridev.gymex.entity;
 
 import jakarta.persistence.*;
 
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,11 +16,13 @@ public class Week {
     private String name;
     @OneToMany( cascade = CascadeType.ALL)
     private List<Day> days;
+    private ZonedDateTime createdDate;
 
-    public Week(UUID userId, String name, List<Day> days) {
+    public Week(UUID userId, String name, List<Day> days, ZonedDateTime createdDate) {
         this.userId = userId;
         this.name = name;
         this.days = days;
+        this.createdDate = createdDate;
     }
 
     public Week() {}
@@ -54,6 +58,14 @@ public class Week {
         this.days = days;
     }
 
+    public ZonedDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
     @Override
     public String toString() {
         return "Week{" +
@@ -61,6 +73,7 @@ public class Week {
                 ", userId='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", days=" + days +
+                ", createdDate=" + createdDate +
                 '}';
     }
 }

@@ -24,6 +24,7 @@ public class RoutineDaoImp implements RoutineDao {
     public Routine postNewRoutineToDB(UUID userId, Routine newRoutine) {
         //TODO: cuando haya varios usuarios se tendrá que recuperar la rutina correspondiente al id del usuario
         //TODO: de momento como solo hay una, se meten todas las rutinas nuevas en 'databaseRoutine'
+        System.out.println("Ruitna que llega al DAO: " + newRoutine);
         routineRepository.save(newRoutine);
         return newRoutine;
     }
