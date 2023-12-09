@@ -11,10 +11,12 @@ import com.adridev.gymex.services.WeekService;
 import com.adridev.gymex.validation.UserValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,19 +42,13 @@ public class GymexController {
 
     @PostMapping("user/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User newUser) {
-        /*userValidation.validate(newUser, result);
-        if (result.hasErrors()) {
-            List<ValidationError> errors = new ArrayList<>();
-
-            result.getFieldErrors().forEach(error -> {
-                ValidationError validationError = new ValidationError();
-                validationError.setField(error.getField());
-                validationError.setMessage(error.getDefaultMessage());
-                errors.add(validationError);
-            });
-            System.out.println("Errores de BindingResult: " + errors);
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }*/
+        //userValidation.validate(newUser, result);
+        if (!newUser.getPassword().equals(newUser.getConfirmPassword())) {
+            ValidationError error = new ValidationError();
+            error.setField("confirmPassword");
+            error.setMessage("Las contraseñas no coinciden");
+            return new ResponseEntity<>(List.of(error), HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.ok().body(userService.register(newUser));
     }
 

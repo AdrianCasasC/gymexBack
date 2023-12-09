@@ -19,7 +19,7 @@ public class UserValidation implements Validator {
         System.out.println("Usuario que llega: " + user);
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             System.out.println("Las contraseñas no coinciden");
-            errors.rejectValue("confirmPassword","{register.confirmPassword.notEqual}");
+            errors.rejectValue("confirmPassword","Las contraseñas no coinciden");
         }
     }
 }
