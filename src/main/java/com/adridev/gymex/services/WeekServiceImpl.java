@@ -42,6 +42,11 @@ public class WeekServiceImpl implements WeekService{
     }
 
     @Override
+    public Day desAssociateWeekDayRoutine(String userId, Integer dayId) {
+        return weekDao.deleteDBWeekDayRoutine(userId, dayId);
+    }
+
+    @Override
     public Week postNewWeek(UUID userId, Week newWeek) {
         return weekDao.postWeekToDB(userId, newWeek);
     }

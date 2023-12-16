@@ -17,6 +17,8 @@ public interface WeekService {
 
     Day editWeekDayRoutine(String userId, Integer dayId, Routine editedRoutine);
 
+    Day desAssociateWeekDayRoutine(String userId, Integer dayId);
+
     Week postNewWeek(UUID userId, Week newWeek);
 
     void deleteWeek(String userId, UUID weekId);

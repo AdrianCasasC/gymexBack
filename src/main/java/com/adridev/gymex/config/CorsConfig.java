@@ -14,6 +14,8 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:4200");
+        configuration.addAllowedOrigin("https://b0shmpr0-4200.uks1.devtunnels.ms");
+        configuration.addAllowedOrigin("https://b0shmpr0-3000.uks1.devtunnels.ms");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
 

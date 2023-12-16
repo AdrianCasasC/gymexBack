@@ -21,6 +21,9 @@ public interface WeekDao {
 
     Day putDBWeekDayRoutine(String userId, Integer dayId, Routine editedRoutine);
 
+    Day deleteDBWeekDayRoutine(String userId, Integer dayId);
+
     Week postWeekToDB(UUID userId, Week newWeek);
+
     void deleteDBWeek(String userId, UUID weekId);
 }

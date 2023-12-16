@@ -92,6 +92,16 @@ public class GymexController {
         );
     }
 
+    @DeleteMapping ("{userId}/routines/desassociate/{dayId}")
+    public CompletableFuture<ResponseEntity<Day>> removeWeekDayRoutine(@PathVariable String userId, @PathVariable Integer dayId) {
+        return CompletableFuture.completedFuture(
+                Optional
+                        .of(weekService.desAssociateWeekDayRoutine(userId, dayId))
+                        .map(weeks -> ResponseEntity.ok().body(weeks))
+                        .orElse(ResponseEntity.notFound().build())
+        );
+    }
+
 
     @PostMapping("routines/{userId}")
     public CompletableFuture<ResponseEntity<Routine>> postRoutine(@PathVariable UUID userId, @RequestBody Routine newRoutine) {

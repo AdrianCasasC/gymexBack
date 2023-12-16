@@ -51,6 +51,16 @@ public class WeekDaoImp implements WeekDao{
     }
 
     @Override
+    public Day deleteDBWeekDayRoutine(String userId, Integer dayId) {
+        Optional<Day> foundDay = dayRepository.findById(dayId);
+        if (foundDay.isPresent()) {
+            foundDay.get().setRoutine(null);
+            return dayRepository.save(foundDay.get());
+        }
+        return new Day();
+    }
+
+    @Override
     public Week postWeekToDB(UUID userId, Week newWeek) {
         return weekRepository.save(newWeek);
     }
