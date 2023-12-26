@@ -37,7 +37,10 @@ public class WeekDaoImp implements WeekDao{
 
     @Override
     public Week putDBWeek(String userId, Week editedWeek) {
-        return weekRepository.save(editedWeek);
+        Week databaseWeek = this.getWeekById(userId, editedWeek.getId()).get();
+        databaseWeek.setName(editedWeek.getName());
+        databaseWeek.setDays(editedWeek.getDays());
+        return weekRepository.save(databaseWeek);
     }
 
     @Override
