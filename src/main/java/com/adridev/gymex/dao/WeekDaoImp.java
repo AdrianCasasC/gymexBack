@@ -4,24 +4,21 @@ import com.adridev.gymex.entity.Day;
 import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Week;
 import com.adridev.gymex.repository.DayRepository;
-import com.adridev.gymex.repository.RoutineRepository;
 import com.adridev.gymex.repository.WeekRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Repository
 public class WeekDaoImp implements WeekDao{
 
     private final WeekRepository weekRepository;
-    private final RoutineRepository routineRepository;
     private final DayRepository dayRepository;
 
-    public  WeekDaoImp(WeekRepository weekRepository, RoutineRepository routineRepository, DayRepository dayRepository) {
+    public  WeekDaoImp(WeekRepository weekRepository, DayRepository dayRepository) {
         this.weekRepository = weekRepository;
-        this.routineRepository = routineRepository;
         this.dayRepository = dayRepository;
     }
 
@@ -37,10 +34,13 @@ public class WeekDaoImp implements WeekDao{
 
     @Override
     public Week putDBWeek(String userId, Week editedWeek) {
-        Week databaseWeek = this.getWeekById(userId, editedWeek.getId()).get();
-        databaseWeek.setName(editedWeek.getName());
-        databaseWeek.setDays(editedWeek.getDays());
-        return weekRepository.save(databaseWeek);
+        Optional<Week> databaseWeek = this.getWeekById(userId, editedWeek.getId());
+        if (databaseWeek.isPresent()) {
+            databaseWeek.get().setName(editedWeek.getName());
+            databaseWeek.get().setDays(editedWeek.getDays());
+            return weekRepository.save(databaseWeek.get());
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Week not found");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class WeekDaoImp implements WeekDao{
             foundDay.get().setRoutine(editedRoutine);
             return dayRepository.save(foundDay.get());
         }
-        return new Day();
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Day not found");
     }
 
     @Override
@@ -60,7 +60,7 @@ public class WeekDaoImp implements WeekDao{
             foundDay.get().setRoutine(null);
             return dayRepository.save(foundDay.get());
         }
-        return new Day();
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Day not found");
     }
 
     @Override

@@ -5,7 +5,9 @@ import com.adridev.gymex.entity.Routine;
 import com.adridev.gymex.entity.Serie;
 import com.adridev.gymex.repository.RoutineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -22,11 +24,7 @@ public class RoutineDaoImp implements RoutineDao {
 
     @Override
     public Routine postNewRoutineToDB(UUID userId, Routine newRoutine) {
-        //TODO: cuando haya varios usuarios se tendrá que recuperar la rutina correspondiente al id del usuario
-        //TODO: de momento como solo hay una, se meten todas las rutinas nuevas en 'databaseRoutine'
-        System.out.println("Ruitna que llega al DAO: " + newRoutine);
-        routineRepository.save(newRoutine);
-        return newRoutine;
+        return routineRepository.save(newRoutine);
     }
 
     @Override
@@ -47,6 +45,12 @@ public class RoutineDaoImp implements RoutineDao {
 
     @Override
     public  Optional<Routine> editDBRoutine(String userId, Routine editedRoutine) {
-        return Optional.of(routineRepository.save(editedRoutine));
+        Optional<Routine> databaseRoutine = routineRepository.findById(editedRoutine.getId());
+        if (databaseRoutine.isPresent()) {
+            databaseRoutine.get().setExercises(editedRoutine.getExercises());
+            databaseRoutine.get().setName(editedRoutine.getName());
+            return Optional.of(routineRepository.save(databaseRoutine.get()));
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found");
     }
 }

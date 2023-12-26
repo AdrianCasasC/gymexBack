@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface UserDao {
     User registerDBUser(User newUser);
     Optional<User> findUserByNameAndPass(String name, String password);
+    Optional<User> findUserByName(String name);
 }
